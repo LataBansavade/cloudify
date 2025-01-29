@@ -6,18 +6,18 @@ Ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (Recommended: Latest LTS version)
 - [Git](https://git-scm.com/) (Optional but recommended)
 
-### 1️⃣ Clone the Repository
+###  Clone the Repository
 ```sh
 git clone <repository-url>
 cd <project-folder>
 ```
 
-### 2️⃣ Install Dependencies
+###  Install Dependencies
 ```sh
 npm install
 ```
 
-### 3️⃣ Start the Development Server
+###  Start the Development Server
 ```sh
 npm run dev
 ```
@@ -45,9 +45,9 @@ The application should now be running at [**http://localhost:5173/**](http://loc
 - Designed a **responsive** layout for different screen sizes.
 -  **Local storage persistence** (Refresh support).
 - **"Select All" functionality** in multi-select dropdown.
-  -**Input validation & error handling** (prevents adding duplicate items).
-  - **Click-outside detection** for dropdowns to close.
+-**Input validation & error handling** (prevents adding duplicate items).
+- **Click-outside detection** for dropdowns to close.
 - **Keyboard accessibility** for navigation through dropdown.
-  - **Clear Error feedback** for user actions.
+- **Clear Error feedback** for user actions.
 - **Delete button** (×) for each row.
-  - **"Delete All Rows" button** with a trash icon.
+- **"Delete All Rows" button** with a trash icon.
