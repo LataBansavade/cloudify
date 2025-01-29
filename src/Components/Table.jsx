@@ -24,12 +24,17 @@ function Table() {
   }, [data]);
 
   const addRow = () => {
-    const newRow = { id: Date.now(), label1: null, label2: [] };
-    setData((prev) => ({ ...prev, rows: [...prev.rows, newRow] }));
+    setData((prev) => ({
+      ...prev,
+      rows: [...prev.rows, { id: Date.now(), label1: null, label2: [] }],
+    }));
   };
 
   const deleteRow = (rowId) => {
-    setData((prev) => ({ ...prev, rows: prev.rows.filter((row) => row.id !== rowId) }));
+    setData((prev) => ({
+      ...prev,
+      rows: prev.rows.filter((row) => row.id !== rowId),
+    }));
   };
 
   const deleteAllRows = () => {
@@ -39,7 +44,9 @@ function Table() {
   const updateRow = (rowId, updates) => {
     setData((prev) => ({
       ...prev,
-      rows: prev.rows.map((row) => (row.id === rowId ? { ...row, ...updates } : row)),
+      rows: prev.rows.map((row) =>
+        row.id === rowId ? { ...row, ...updates } : row
+      ),
     }));
   };
 
@@ -53,81 +60,93 @@ function Table() {
       setError("Item already exists!");
       return;
     }
-    setData((prev) => ({ ...prev, column2Options: [...prev.column2Options, trimmedItem] }));
+    setData((prev) => ({
+      ...prev,
+      column2Options: [...prev.column2Options, trimmedItem],
+    }));
     setNewItem("");
     setError("");
   };
 
   return (
-    <div className="p-6 max-w-full mx-auto min-h-screen  flex flex-col items-center">
-      
-       <motion.h1
-  className="text-center mt-8 mb-6 text-5xl font-extrabold bg-clip-text text-transparent"
-  style={{
-    WebkitBackgroundClip: "text",
-    backgroundImage: "linear-gradient(90deg, #ff6a00, #ee0979)",
-    display: "inline-block",
-  }}
-  animate={{
-    backgroundImage: [
-      "linear-gradient(90deg, #ff6a00, #ee0979)",
-      "linear-gradient(90deg, #da22ff, #9733ee)",
-      "linear-gradient(90deg, #ff512f, #dd2476)",
-    ],
-    transition: { duration: 3, repeat: Infinity, repeatType: "reverse" },
-  }}
->
-  {"Dynamic Table".split("").map((letter, index) => (
-    <motion.span
-      key={index}
-      initial={{ y: 0 }}
-      animate={{ y: [0, -5, 0] }}
-      transition={{ duration: 0.8, repeat: Infinity, delay: index * 0.1 }}
-    >
-      {letter}
-    </motion.span>
-  ))}
-</motion.h1>
-
-      {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{error}</div>}
-
-      <motion.table 
-        className="w-4xl border-collapse shadow-2xl bg-white rounded-lg overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+    <div className="p-4 sm:p-6 max-w-full mx-auto min-h-screen flex flex-col items-center">
+      {/* Title */}
+      <motion.h1
+        className="text-center mt-4 sm:mt-8 mb-4 sm:mb-6 text-3xl sm:text-5xl font-extrabold bg-clip-text text-transparent"
+        style={{
+          WebkitBackgroundClip: "text",
+          backgroundImage: "linear-gradient(90deg, #ff6a00, #ee0979)",
+          display: "inline-block",
+        }}
+        animate={{
+          backgroundImage: [
+            "linear-gradient(90deg, #ff6a00, #ee0979)",
+            "linear-gradient(90deg, #da22ff, #9733ee)",
+            "linear-gradient(90deg, #ff512f, #dd2476)",
+          ],
+          transition: { duration: 3, repeat: Infinity, repeatType: "reverse" },
+        }}
       >
-        <thead className="bg-gradient-to-r from-pink-600 to-purple-800 text-white">
-          <tr>
-            <th className="p-3 text-center border-r">Label 1</th>
-            <th className="p-3 text-center border-r">Label 2</th>
-            <th className="p-3 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.rows.map((row) => (
-            <Row
-              key={row.id}
-              row={row}
-              allRows={data.rows}
-              column1Options={data.column1Options}
-              column2Options={data.column2Options}
-              updateRow={updateRow}
-              deleteRow={deleteRow}
-              newItem={newItem}
-              setNewItem={setNewItem}
-              error={error}
-              setError={setError}
-              handleAddNewItem={handleAddNewItem}
-            />
-          ))}
-        </tbody>
-      </motion.table>
+        {"Dynamic Table".split("").map((letter, index) => (
+          <motion.span
+            key={index}
+            initial={{ y: 0 }}
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, delay: index * 0.1 }}
+          >
+            {letter}
+          </motion.span>
+        ))}
+      </motion.h1>
 
-      <div className="mt-6 flex gap-4">
+      {/* Error Message */}
+      {error && (
+        <div className="mb-4 p-3 w-full max-w-md bg-red-100 text-red-700 rounded-md text-sm text-center">
+          {error}
+        </div>
+      )}
+
+      {/* Responsive Table Wrapper */}
+      <div className="overflow-x-auto w-full max-w-4xl shadow-lg rounded-lg">
+        <motion.table
+          className="w-full border-collapse bg-white rounded-lg overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <thead className="bg-gradient-to-r from-pink-600 to-purple-800 text-white text-sm sm:text-base">
+            <tr>
+              <th className="p-2 sm:p-3 text-center border-r">Label 1</th>
+              <th className="p-2 sm:p-3 text-center border-r">Label 2</th>
+              <th className="p-2 sm:p-3 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.rows.map((row) => (
+              <Row
+                key={row.id}
+                row={row}
+                allRows={data.rows}
+                column1Options={data.column1Options}
+                column2Options={data.column2Options}
+                updateRow={updateRow}
+                deleteRow={deleteRow}
+                newItem={newItem}
+                setNewItem={setNewItem}
+                error={error}
+                setError={setError}
+                handleAddNewItem={handleAddNewItem}
+              />
+            ))}
+          </tbody>
+        </motion.table>
+      </div>
+
+      {/* Buttons */}
+      <div className="mt-6 flex flex-col sm:flex-row gap-4 w-full max-w-md">
         <motion.button
           onClick={addRow}
-          className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all flex items-center gap-2"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2"
           whileHover={{ scale: 1.1 }}
         >
           <FaPlus /> Add Row
@@ -135,7 +154,7 @@ function Table() {
 
         <motion.button
           onClick={deleteAllRows}
-          className="px-6 py-2 bg-gradient-to-r from-gray-700 to-red-600 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all flex items-center gap-2"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-700 to-red-600 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2"
           whileHover={{ scale: 1.1 }}
         >
           <FaTrash /> Delete All Rows
